@@ -14,7 +14,7 @@ public class TodoForm {
     @Size(min = 2, max = 14, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
 	public String title;
 	
-	public Boolean doneFlag;
+	public Integer status;
 	
 	@NotEmpty(message = "{0}が未入力です。")
 	public String timeLimit;

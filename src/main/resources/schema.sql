@@ -19,7 +19,7 @@ CREATE TABLE users(
 CREATE TABLE todo_items(
 	id 			SERIAL PRIMARY KEY,
 	title 		varchar(40) NOT NULL,
-	done_flag 	boolean default FALSE,
+	status	 	int default 0,
 	time_limit 	date  NOT NULL,
 	user_id int REFERENCES users(id),
 	team_id int  REFERENCES teams(id)

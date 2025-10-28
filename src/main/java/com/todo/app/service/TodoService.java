@@ -21,11 +21,11 @@ public class TodoService {
 	}
 
 	public List<Todo> selectIncomplete(long team_id) {
-		return todoRepository.findByDoneFlagFalseAndTeamId(team_id);
+		return todoRepository.findByStatusLessThanAndTeamId(2, team_id);
 	}
 
 	public List<Todo> selectComplete(long team_id) {
-		return todoRepository.findByDoneFlagTrueAndTeamId(team_id);
+		return todoRepository.findByStatusEqualsAndTeamId(2, team_id);
 	}
 
 	public void add(Todo todo) {
@@ -39,6 +39,6 @@ public class TodoService {
 
 	@Transactional
 	public void delete() {
-		todoRepository.deleteByDoneFlagTrue();
+		todoRepository.deleteByStatusEquals(2);
 	}
 }

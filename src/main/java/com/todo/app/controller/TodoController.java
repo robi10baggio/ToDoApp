@@ -1,7 +1,9 @@
 package com.todo.app.controller;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -42,31 +44,29 @@ public class TodoController {
 	@Autowired
 	TeamService teamService;
 
-
+	private static Map<Integer, String> map = new HashMap<>();
+    static {
+        map.put(0, "未着手");
+        map.put(1, "実施中");
+        map.put(2, "完了");
+    }
+    public static  Map<Integer, String> getStatusMenu() {
+		return map;
+    }
+    
 	@GetMapping("/")
 	public String index(TodoForm todoForm, Model model) {
 		
 		List<Todo> list = todoService.selectIncomplete(account.getTeamId());
-		for (Todo todo:list) {
-			long userId = todo.getUserId();
-			User user = loginService.findById(userId);
-			todo.setUserName(user.getUserName());
-			Team team = teamService.findById(user.getTeamId());
-			todo.setTeamName(team.getTeamName());
-		}
+		
 		
 		List<Todo> doneList = todoService.selectComplete(account.getTeamId());
-		for (Todo todo:doneList) {
-			long userId = todo.getUserId();
-			User user = loginService.findById(userId);
-			Team team = teamService.findById(user.getTeamId());
-			todo.setUserName(user.getUserName());
-			todo.setTeamName(team.getTeamName());
-		}
+
 		model.addAttribute("todos",list);
 		model.addAttribute("doneTodos",doneList);
 		model.addAttribute("todoForm",todoForm);
 		model.addAttribute("account",account);
+		model.addAttribute("statusMenu",TodoController.getStatusMenu());
 		return "index";
 	}
 
@@ -85,9 +85,12 @@ public class TodoController {
 		Todo todo = new Todo();
 		todo.setTitle(todoForm.getTitle());
 		todo.setTimeLimit(Date.valueOf(todoForm.getTimeLimit()));
-		todo.setDoneFlag(false);
-		todo.setUserId(account.getUserId());
-		todo.setTeamId(account.getTeamId());
+		todo.setStatus(0);
+		User user = loginService.findById(account.getUserId()); 
+		Team team = teamService.findById(account.getTeamId());
+
+		todo.setUser(user);
+		todo.setTeam(team);
 		todoService.add(todo);
 		
 		return "redirect:/todo/";
@@ -100,14 +103,13 @@ public class TodoController {
 		todo.setId(todoForm.getId());
 		todo.setTitle(todoForm.getTitle());
 		todo.setTimeLimit(Date.valueOf(todoForm.getTimeLimit()));
-		Boolean doneFlag = todoForm.getDoneFlag();
-		if (doneFlag == null) {
-			doneFlag = false;
-		}
 		
-		todo.setDoneFlag(doneFlag);
-		todo.setUserId(todoForm.getUserId());
-		todo.setTeamId(todoForm.getTeamId());
+		todo.setStatus(todoForm.getStatus());
+		User user = loginService.findById(account.getUserId()); 
+		Team team = teamService.findById(account.getTeamId());
+
+		todo.setUser(user);
+		todo.setTeam(team);
 		todoService.update(todo);
 		return "redirect:/todo/";
 	}
