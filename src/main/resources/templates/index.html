@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>TodoApp</title>
+</head>
+<body>
+  <h1>[<span th:text="${account.teamName}"></span>]のTodoリスト</h1>
+  <h3>[<span th:text="${account.userName}"></span>]さんのマイタスク</h3>
+  <div th:unless="${#lists.isEmpty(todos)}">
+	  <table border="1">
+		<tr>
+			<th>ステータス</th>
+			<th>タイトル</th>
+			<th>チーム</th>
+			<th>担当者</th>
+			<th>終了予定日</th>
+			<th>更新</th>
+		</tr>
+		<tr  th:each="todo : ${todos}">
+		  <form method="post" th:action="@{/todo/update}" >
+		    <td><input type="checkbox"name="doneFlag"/></td>
+		    <input type="hidden" name="id" th:value="${todo.id}" />
+		    <td><input type="text" name="title" th:value="${todo.title}" /></td>
+			<td th:text="${todo.teamName}" /></td>
+			<input type="hidden" name="teamId" th:value="${todo.teamId}" />
+			<td th:text="${todo.userName}" /></td>
+			<input type="hidden" name="userId" th:value="${todo.userId}" />
+		    <td><input type="date" name="timeLimit" th:value="${todo.timeLimit}" /></td>
+		    <td><input type="submit" value="更新" /></td>
+		  </form>
+	  	</tr>
+	  </table>
+  </div>
+
+  <h3>完了済み</h3>
+  <div th:unless="${#lists.isEmpty(doneTodos)}">
+	  <table border="1">
+		<tr>
+			<th>ステータス</th>
+			<th>タイトル</th>
+			<th>グループ</th>
+			<th>担当者</th>
+			<th>終了予定日</th>
+			<th>更新</th>
+		</tr>
+		<tr  th:each="todo : ${doneTodos}">
+			<form method="post" th:action="@{/todo/update}" >
+			    <td><input type="checkbox"name="doneFlag"/ checked></td>
+			    <input type="hidden" name="id" th:value="${todo.id}" />
+			    <td><input type="text" name="title"th:value="${todo.title}" style="text-decoration:line-through"/></td>
+				<td th:text="${todo.teamName}" /></td>
+				<input type="hidden" name="teamId" th:value="${todo.teamId}" />
+				<td th:text="${todo.userName}" /></td>
+				<input type="hidden" name="userId" th:value="${todo.userId}" />
+			    <td><input type="date" name="timeLimit"th:value="${todo.timeLimit}" /></td>
+			    <td><input type="submit" value="更新" /></td>
+			 </form>
+		</tr>
+	  </table>
+  </div>
+
+  <h3>新しいタスクを追加</h3>
+	  <form method="post" th:action="@{/todo/add}" th:object="${todoForm}">
+	    <input type="text" th:field="*{title}" /><span th:errors="*{title}"></span>
+	    <input type="date" th:field="*{timeLimit} "/><span th:errors="*{timeLimit}"></span>
+	    <input type="submit" value="追加" />
+	  </form>
+
+  <form method="post" th:action="@{/todo/delete}">
+    <input type="submit" value="完了済みを削除" />
+  </form>
+
+  <a href="/logout">ログアウト</a>
+</body>
+</html>
