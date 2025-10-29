@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -44,14 +45,21 @@ public class TodoController {
 	@Autowired
 	TeamService teamService;
 
-	private static Map<Integer, String> map = new HashMap<>();
+	private static Map<Integer, String> statusMenumap = new HashMap<>();
     static {
-        map.put(0, "未着手");
-        map.put(1, "実施中");
-        map.put(2, "完了");
+    	statusMenumap.put(0, "未着手");
+    	statusMenumap.put(1, "実施中");
+    	statusMenumap.put(2, "完了");
     }
+    
+    @ModelAttribute("statusMenu")
     public static  Map<Integer, String> getStatusMenu() {
-		return map;
+		return TodoController.statusMenumap;
+    }
+    
+    @ModelAttribute("account")
+    public Account getAccount() {
+		return this.account;
     }
     
 	@GetMapping("/")
@@ -65,8 +73,6 @@ public class TodoController {
 		model.addAttribute("todos",list);
 		model.addAttribute("doneTodos",doneList);
 		model.addAttribute("todoForm",todoForm);
-		model.addAttribute("account",account);
-		model.addAttribute("statusMenu",TodoController.getStatusMenu());
 		return "index";
 	}
 
