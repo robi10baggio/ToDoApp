@@ -29,16 +29,16 @@ import com.todo.app.service.UserService;
 public class LoginController {
 
 	@Autowired
-	private HttpSession session;
+	HttpSession session;
 
 	@Autowired
-	private Account account;
+	Account account;
 	
 	@Autowired
-	private UserService userService;
+	UserService userService;
 	
 	@Autowired
-	private TeamService teamService;
+	TeamService teamService;
 
 	@ModelAttribute("teamMenu")
     public Map<Integer, String> getTeamsMenu() {
@@ -74,8 +74,7 @@ public class LoginController {
 			RedirectAttributes redirectAttribute,
 			Model model) {
 		if (bindingResult.hasErrors()) {
-			redirectAttribute.addFlashAttribute(loginForm);
-			return "redirect:/";
+			return "/login";
 		}
 		User user = userService.loginByAccount(loginForm.getUserId(), loginForm.getPassword());
 		
@@ -91,7 +90,7 @@ public class LoginController {
 		
 
 		// 「/todo」へのリダイレクト
-		return "redirect:/todo/";
+		return "redirect:/todo/index";
 	}
 	
 	@GetMapping("/register")
@@ -109,8 +108,8 @@ public class LoginController {
 			RedirectAttributes redirectAttribute,
 			Model model) {
 		if (bindingResult.hasErrors()) {
-			redirectAttribute.addFlashAttribute(registerForm);
-			return "redirect:/register";
+//			redirectAttribute.addFlashAttribute(registerForm);
+			return "register";
 		}
 		User user = new User();
 		user.setUserId(registerForm.getUserId());

@@ -10,13 +10,12 @@ import lombok.Data;
 public class TodoForm {
 	public Integer id;
 	
-	@NotEmpty(message = "{0}が未入力です。")
     @Size(min = 1, max = 20, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
 	public String title;
 	
 	public Integer status;
 	
-	@NotEmpty(message = "{0}が未入力です。")
+	@NotEmpty
 	public String timeLimit;
 	
 	private long userId;

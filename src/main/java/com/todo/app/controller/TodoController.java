@@ -62,7 +62,7 @@ public class TodoController {
 		return this.account;
     }
     
-	@GetMapping("/")
+	@GetMapping("/index")
 	public String index(TodoForm todoForm, Model model) {
 		
 		List<Todo> list = todoService.selectIncomplete(account.getTeamId());
@@ -85,8 +85,11 @@ public class TodoController {
 
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
-			redirectAttribute.addFlashAttribute(todoForm);
-			return "redirect:/todo/";
+			List<Todo> list = todoService.selectIncomplete(account.getTeamId());
+			List<Todo> doneList = todoService.selectComplete(account.getTeamId());
+			model.addAttribute("todos",list);
+			model.addAttribute("doneTodos",doneList);
+			return "index";
 		}
 		Todo todo = new Todo();
 		todo.setTitle(todoForm.getTitle());
@@ -99,7 +102,7 @@ public class TodoController {
 		todo.setTeam(team);
 		todoService.add(todo);
 		
-		return "redirect:/todo/";
+		return "redirect:/todo/index";
 	}
 
 	@PostMapping("/update")
@@ -117,13 +120,13 @@ public class TodoController {
 		todo.setUser(user);
 		todo.setTeam(team);
 		todoService.update(todo);
-		return "redirect:/todo/";
+		return "redirect:/todo/index";
 	}
 
 	@PostMapping("/delete")
 	public String delete() {
 		todoService.delete();
-		return "redirect:/todo/";
+		return "redirect:/todo/list";
 	}
 
 }

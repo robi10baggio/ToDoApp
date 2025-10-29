@@ -77,11 +77,20 @@
   </div>
 
   <h3>新しいタスクを追加</h3>
-	  <form method="post" th:action="@{/todo/add}" th:object="${todoForm}">
-	    <input type="text" th:field="*{title}" /><span th:errors="*{title}"></span>
-	    <input type="date" th:field="*{timeLimit} "/><span th:errors="*{timeLimit}"></span>
-	    <input type="submit" value="追加" />
+  	<table>
+		<form method="post" th:action="@{/todo/add}" th:object="${todoForm}">
+			<tr>
+				<th>タイトル</th>
+				<td><input type="text" th:field="*{title}" /><span th:errors="*{title}"></span></td>
+			</tr>
+			<tr>
+				<th>期日</th>
+		    	<td><input type="date" th:field="*{timeLimit} "/><span th:errors="*{timeLimit}"></span></td>
+			</tr>
+			<tr><td><button>追加</button></td></tr>
+	    	
 	  </form>
+	</table>
 
   <form method="post" th:action="@{/todo/delete}">
     <input type="submit" value="完了済みを削除" />
