@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.todo.app.entity.User;
-import com.todo.app.repository.LoginRepository;
+import com.todo.app.repository.UserRepository;
 
 @Service
-public class LoginService {
+public class UserService {
 	@Autowired
-	LoginRepository loginRepository;
+	UserRepository loginRepository;
 	
 	public User loginByAccount(String userName, String password) {
 		return loginRepository.findByUserIdAndPassword(userName, password);

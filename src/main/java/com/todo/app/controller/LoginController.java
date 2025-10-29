@@ -16,8 +16,8 @@ import com.todo.app.entity.Team;
 import com.todo.app.entity.User;
 import com.todo.app.form.LoginForm;
 import com.todo.app.model.Account;
-import com.todo.app.service.LoginService;
 import com.todo.app.service.TeamService;
+import com.todo.app.service.UserService;
 
 @Controller
 public class LoginController {
@@ -29,7 +29,7 @@ public class LoginController {
 	Account account;
 	
 	@Autowired
-	LoginService loginService;
+	UserService userService;
 	
 	@Autowired 
 	TeamService teamService;
@@ -61,7 +61,7 @@ public class LoginController {
 			redirectAttribute.addFlashAttribute(loginForm);
 			return "redirect:/";
 		}
-		User user = loginService.loginByAccount(loginForm.getUserId(), loginForm.getPassword());
+		User user = userService.loginByAccount(loginForm.getUserId(), loginForm.getPassword());
 		
 		if (user == null) {
 			return "redirect:/login";

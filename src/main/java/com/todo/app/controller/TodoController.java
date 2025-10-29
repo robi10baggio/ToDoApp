@@ -23,9 +23,9 @@ import com.todo.app.entity.Todo;
 import com.todo.app.entity.User;
 import com.todo.app.form.TodoForm;
 import com.todo.app.model.Account;
-import com.todo.app.service.LoginService;
 import com.todo.app.service.TeamService;
 import com.todo.app.service.TodoService;
+import com.todo.app.service.UserService;
 
 @Controller
 @RequestMapping("/todo")
@@ -40,7 +40,7 @@ public class TodoController {
 	TodoService todoService;
 	
 	@Autowired
-	LoginService loginService;
+	UserService userService;
 	
 	@Autowired
 	TeamService teamService;
@@ -92,7 +92,7 @@ public class TodoController {
 		todo.setTitle(todoForm.getTitle());
 		todo.setTimeLimit(Date.valueOf(todoForm.getTimeLimit()));
 		todo.setStatus(0);
-		User user = loginService.findById(account.getUserId()); 
+		User user = userService.findById(account.getUserId()); 
 		Team team = teamService.findById(account.getTeamId());
 
 		todo.setUser(user);
@@ -111,7 +111,7 @@ public class TodoController {
 		todo.setTimeLimit(Date.valueOf(todoForm.getTimeLimit()));
 		
 		todo.setStatus(todoForm.getStatus());
-		User user = loginService.findById(account.getUserId()); 
+		User user = userService.findById(account.getUserId()); 
 		Team team = teamService.findById(account.getTeamId());
 
 		todo.setUser(user);
