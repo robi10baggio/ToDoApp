@@ -53,6 +53,7 @@ public class LoginController {
 	// ログイン画面を表示
 	@GetMapping({ "/", "/login", "/logout" })
 	public String loginDisplay(
+			LoginForm loginForm,
 			@RequestParam(name = "error", defaultValue = "") String error,
 			Model model) {
 		// セッション情報を全てクリアする
@@ -119,7 +120,7 @@ public class LoginController {
 		user.setTeam(team);
 		userService.update(user);
 		
-		return "/login";
+		return "redirect:/login";
 		
 	}
 }
