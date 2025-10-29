@@ -1,5 +1,9 @@
 package com.todo.app.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -15,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.todo.app.entity.Team;
 import com.todo.app.entity.User;
 import com.todo.app.form.LoginForm;
+import com.todo.app.form.RegisterForm;
 import com.todo.app.model.Account;
 import com.todo.app.service.TeamService;
 import com.todo.app.service.UserService;
@@ -23,22 +29,30 @@ import com.todo.app.service.UserService;
 public class LoginController {
 
 	@Autowired
-	HttpSession session;
+	private HttpSession session;
 
 	@Autowired
-	Account account;
+	private Account account;
 	
 	@Autowired
-	UserService userService;
+	private UserService userService;
 	
+	@Autowired
+	private TeamService teamService;
+
+	@ModelAttribute("teamMenu")
+    public Map<Integer, String> getTeamsMenu() {
+		Map<Integer, String> teamMap = new HashMap<>();
+		List<Team> teams = teamService.findAll();
+		for (Team team:teams) {
+			teamMap.put((int) team.getId(), team.getTeamName());
+		}
+		return teamMap;
+    }
 	
-	@Autowired 
-	TeamService teamService;
-
-
 	// ログイン画面を表示
 	@GetMapping({ "/", "/login", "/logout" })
-	public String index(
+	public String loginDisplay(
 			@RequestParam(name = "error", defaultValue = "") String error,
 			Model model) {
 		// セッション情報を全てクリアする
@@ -77,5 +91,35 @@ public class LoginController {
 
 		// 「/todo」へのリダイレクト
 		return "redirect:/todo/";
+	}
+	
+	@GetMapping("/register")
+	public String registerDisplay(
+			RegisterForm registerForm,
+			Model model) {
+		return "register";
+		
+	}
+	
+	@PostMapping("/register")
+	public String register(
+			@Validated RegisterForm registerForm,
+			BindingResult bindingResult,
+			RedirectAttributes redirectAttribute,
+			Model model) {
+		if (bindingResult.hasErrors()) {
+			redirectAttribute.addFlashAttribute(registerForm);
+			return "redirect:/register";
+		}
+		User user = new User();
+		user.setUserId(registerForm.getUserId());
+		user.setUserName(registerForm.getUserName());
+		user.setPassword(registerForm.getPassword());
+		Team team = teamService.findById((long)registerForm.getTeamId());
+		user.setTeam(team);
+		userService.update(user);
+		
+		return "/login";
+		
 	}
 }

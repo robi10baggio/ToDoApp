@@ -20,7 +20,6 @@
 		<tr  th:each="todo : ${todos}">
 		  <form method="post" th:action="@{/todo/update}" >
 			<td>
-
 				<select id="status" name="status">
 				    <option th:each="item : ${statusMenu}"
 				            th:value="${item.key}"

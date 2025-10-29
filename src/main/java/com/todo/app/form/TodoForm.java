@@ -11,7 +11,7 @@ public class TodoForm {
 	public Integer id;
 	
 	@NotEmpty(message = "{0}が未入力です。")
-    @Size(min = 2, max = 14, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
+    @Size(min = 1, max = 20, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
 	public String title;
 	
 	public Integer status;

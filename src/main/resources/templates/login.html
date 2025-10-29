@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>ログイン</title>
+<title>TODO管理システム</title>
 <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 	<header>
-		<h1>TODO管理システム</h1>
+		<h1>ログイン</h1>
 	</header>
 	<main>
 		<form action="/login" method="post">
@@ -16,6 +16,9 @@
 			<button>ログイン</button>
 			<br> <span th:text="${message}" style="color: red"></span>
 		</form>
+		<div>
+			<a href="/register">ユーザ新規登録</a>
+		</div>
 	</main>
 </body>
 </html>

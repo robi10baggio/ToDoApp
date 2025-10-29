@@ -2,6 +2,8 @@ package com.todo.app.service;
 
 import java.util.Optional;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +23,9 @@ public class UserService {
 		Optional<User> user =  loginRepository.findById(id);
 		return user.get();
 	}
-
+	
+	@Transactional
+	public void update(User user) {
+		loginRepository.save(user);
+	}
 }
