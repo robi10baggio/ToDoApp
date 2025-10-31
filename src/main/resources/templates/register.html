@@ -10,6 +10,9 @@
 		<h1>ユーザ登録</h1>
 	</header>
 	<main>
+		<div>
+			<p><span th:text="${message}" style="color: red"></span></p>
+		</div>
 		<table>
 			<form th:action="@{/register}" method="post" th:object="${registerForm}">
 				<tr>
@@ -47,11 +50,17 @@
 						<input type="password" th:field="*{checkPassword}" placeholder="パスワード（確認）"><span th:errors="*{checkPassword}"></span>
 					</td>
 				</tr>
-				<p><button>登録</button>
-				<br> <span th:text="${message}" style="color: red"></span></p>
+				<tr>
+					<td>
+						<p><button>登録</button></p>
+						
+					</td>
+					
+				</tr>
 			</form>
 			</tr>
 		</table>
+		<a href="/login">ログイン画面に戻る</a>
 	</main>
 </body>
 </html>

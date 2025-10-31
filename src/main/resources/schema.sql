@@ -9,7 +9,7 @@ CREATE TABLE teams(
 
 CREATE TABLE users(
 	id 			SERIAL PRIMARY KEY,
-	user_id 	varchar(40)  NOT NULL,
+	user_id 	varchar(40)  UNIQUE NOT NULL,
 	user_name 	varchar(40)  NOT NULL,
 	password 	varchar(40)  NOT NULL,
 	team_id int  REFERENCES teams(id)

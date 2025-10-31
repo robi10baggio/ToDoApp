@@ -38,7 +38,7 @@ public class TodoService {
 	}
 
 	@Transactional
-	public void delete() {
-		todoRepository.deleteByStatusEquals(2);
+	public void delete(long id) {
+		todoRepository.deleteById(id);
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -108,7 +109,10 @@ public class LoginController {
 			RedirectAttributes redirectAttribute,
 			Model model) {
 		if (bindingResult.hasErrors()) {
-//			redirectAttribute.addFlashAttribute(registerForm);
+			return "register";
+		}
+		if (!registerForm.getPassword().equals(registerForm.getCheckPassword())) {
+			model.addAttribute("message", "パスワードが一致しません。");
 			return "register";
 		}
 		User user = new User();
@@ -117,8 +121,12 @@ public class LoginController {
 		user.setPassword(registerForm.getPassword());
 		Team team = teamService.findById((long)registerForm.getTeamId());
 		user.setTeam(team);
-		userService.update(user);
-		
+		try {
+			userService.update(user);
+		} catch (DataIntegrityViolationException e) {
+			model.addAttribute("message", "既にユーザIDは登録されています。");
+			return "register";
+		}
 		return "redirect:/login";
 		
 	}
