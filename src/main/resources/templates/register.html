@@ -18,13 +18,13 @@
 				<tr>
 					<th>ユーザID</th>
 						<td>
-							<input type="text" th:field="*{userId}" placeholder="メールアドレスで登録してください"><span th:errors="*{userId}"></span>
+							<input type="text" th:field="*{userId}" placeholder="メールアドレスで登録してください"><span th:errors="*{userId}" style="color:red"></span>
 						</td>
 				</tr>
 				<tr>
 					<th>ユーザ名</th>
 					<td>
-						<input type="text" th:field="*{userName}" placeholder="ユーザ名"><span th:errors="*{userName}"></span>
+						<input type="text" th:field="*{userName}" placeholder="ユーザ名"><span th:errors="*{userName}" style="color:red"></span>
 					</td>
 				</tr>
 				<tr>
@@ -41,13 +41,13 @@
 				<tr>
 					<th>パスワード</th>
 					<td>
-						<input type="password" th:field="*{password}" placeholder="パスワード"><span th:errors="*{password}"></span>
+						<input type="password" th:field="*{password}" placeholder="パスワード"><span th:errors="*{password}" style="color:red"></span>
 					</td>
 				
 				<tr>
 					<th>パスワード（確認）</th>
 					<td>
-						<input type="password" th:field="*{checkPassword}" placeholder="パスワード（確認）"><span th:errors="*{checkPassword}"></span>
+						<input type="password" th:field="*{checkPassword}" placeholder="パスワード（確認）"><span th:errors="*{checkPassword}" style="color:red"></span>
 					</td>
 				</tr>
 				<tr>

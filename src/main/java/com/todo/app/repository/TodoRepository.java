@@ -12,6 +12,4 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 	public List<Todo> findByStatusEqualsAndTeamId(Integer status, long team_id);
 	
 	public List<Todo> findByStatusLessThanAndTeamId(Integer status, long team_id);
-
-	public void deleteByStatusEquals(Integer status);
 }

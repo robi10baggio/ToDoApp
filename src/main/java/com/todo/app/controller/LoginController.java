@@ -77,7 +77,7 @@ public class LoginController {
 		if (bindingResult.hasErrors()) {
 			return "/login";
 		}
-		User user = userService.loginByAccount(loginForm.getUserId(), loginForm.getPassword());
+		User user = userService.loginAuth(loginForm.getUserId(), loginForm.getPassword());
 		
 		if (user == null) {
 			return "redirect:/login";
@@ -91,7 +91,7 @@ public class LoginController {
 		
 
 		// 「/todo」へのリダイレクト
-		return "redirect:/todo/index";
+		return "redirect:/todo/list";
 	}
 	
 	@GetMapping("/register")
@@ -122,7 +122,7 @@ public class LoginController {
 		Team team = teamService.findById((long)registerForm.getTeamId());
 		user.setTeam(team);
 		try {
-			userService.update(user);
+			userService.regist(user);
 		} catch (DataIntegrityViolationException e) {
 			model.addAttribute("message", "既にユーザIDは登録されています。");
 			return "register";

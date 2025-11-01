@@ -18,8 +18,8 @@
 			<th>更新</th>
 			<th>削除</th>
 		</tr>
-		<tr  th:each="todo : ${todos}">
-		  	<form method="post" th:action="@{/todo/update}" >
+		<tr  th:each="todo : ${todos}" th:object="${todo}">
+		  	<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" >
 				<td>
 					<select id="status" name="status">
 					    <option th:each="item : ${statusMenu}"
@@ -29,24 +29,20 @@
 					    </option>
 					</select>
 				</td>
-			    <input type="hidden" name="id" th:value="${todo.id}" />
 			    <td>
-					<input type="text" name="title" th:value="${todo.title}" />
+					<input type="text" name="title" th:value="*{title}" />
 				</td>
-				<td th:text="${todo.team.teamName}" /></td>
-				<input type="hidden" name="teamId" th:value="${todo.team.id}" />
-				<td th:text="${todo.user.userName}" /></td>
-				<input type="hidden" name="userId" th:value="${todo.user.id}" />
+				<td th:text="*{teamName}" /></td>
+				<td th:text="*{userName}" /></td>
 			    <td>
-					<input type="date" name="timeLimit" th:value="${todo.timeLimit}" />
+					<input type="date" name="timeLimit" th:value="*{timeLimit}" />
 				</td>
-			    <td th:if="${account.userId == todo.user.id}">
+			    <td th:if="${account.userId == todo.userId}">
 					<input type="submit" name="update" value="更新" />
 				</td>
 			</form>
-			<td th:if="${account.userId == todo.user.id}">
-				<form method="post" th:action="@{/todo/delete}" >
-					<input type="hidden" name="userId" th:value="${todo.user.id}" />
+			<td th:if="${account.userId == todo.userId}">
+				<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}" >
 					<input type="submit" name="delete"value="削除" />
 				</form>
 			</td>
@@ -67,8 +63,8 @@
 			<th>更新</th>
 			<th>削除</th>
 		</tr>
-		<tr  th:each="todo : ${doneTodos}">
-			<form method="post" th:action="@{/todo/update}" >
+		<tr  th:each="todo : ${doneTodos}" >
+			<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" th:object="${todo}">
 			    <td>
 					<select id="status" name="status">
 						<option th:each="item : ${statusMenu}"
@@ -78,23 +74,19 @@
 						</option>
 					</select>
 				</td>
-			    <input type="hidden" name="id" th:value="${todo.id}" />
 			    <td>
-					<input type="text" name="title"th:value="${todo.title}" style="text-decoration:line-through"/>
+					<input type="text" name="title" th:value="*{title}" style="text-decoration:line-through"/>
 				</td>
-				<td th:text="${todo.team.teamName}" /></td>
-				<input type="hidden" name="teamId" th:value="${todo.team.id}" />
-				<td th:text="${todo.user.userName}" /></td>
-				<input type="hidden" name="userId" th:value="${todo.user.id}" />
-			    <td><input type="date" name="timeLimit"th:value="${todo.timeLimit}" />
+				<td th:text="*{teamName}" /></td>
+				<td th:text="*{userName}" /></td>
+				<td><input type="date" name="timeLimit" th:value="*{timeLimit}" />
 				</td>
-				<td th:if="${account.userId == todo.user.id}">
+				<td th:if="${account.userId == todo.userId}">
 					<input type="submit" name="update" value="更新" />
 				</td>
 			 </form>
-			 <td th:if="${account.userId == todo.user.id}">
-			 	<form method="post" th:action="@{/todo/delete}" >
-					<input type="hidden" name="userId" th:value="${todo.user.id}" />
+			 <td th:if="${account.userId == todo.userId}">
+			 	<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}"  th:object="${todo}">
 				 	<input type="submit" name="delete"value="削除" />
 				</form>
 			</td>
@@ -107,11 +99,11 @@
 		<form method="post" th:action="@{/todo/add}" th:object="${todoForm}">
 			<tr>
 				<th>タイトル</th>
-				<td><input type="text" th:field="*{title}" /><span th:errors="*{title}"></span></td>
+				<td><input type="text" th:field="*{title}" /><span th:errors="*{title}" style="color:red"></span></td>
 			</tr>
 			<tr>
 				<th>期日</th>
-		    	<td><input type="date" th:field="*{timeLimit} "/><span th:errors="*{timeLimit}"></span></td>
+		    	<td><input type="date" th:field="*{timeLimit} "/><span th:errors="*{timeLimit}" style="color:red"></span></td>
 			</tr>
 			<tr><td><button>追加</button></td></tr>
 	    	

@@ -15,7 +15,7 @@ public class UserService {
 	@Autowired
 	UserRepository loginRepository;
 	
-	public User loginByAccount(String userName, String password) {
+	public User loginAuth(String userName, String password) {
 		return loginRepository.findByUserIdAndPassword(userName, password);
 	}
 	
@@ -25,7 +25,7 @@ public class UserService {
 	}
 	
 	@Transactional
-	public void update(User user) {
+	public void regist(User user) {
 		loginRepository.save(user);
 	}
 }

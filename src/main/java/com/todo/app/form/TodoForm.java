@@ -8,9 +8,9 @@ import lombok.Data;
 
 @Data
 public class TodoForm {
-	public Integer id;
+	public Long id;
 	
-    @Size(min = 1, max = 20, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
+    @Size(min = 1, max = 200, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
 	public String title;
 	
 	public Integer status;
@@ -18,7 +18,9 @@ public class TodoForm {
 	@NotEmpty
 	public String timeLimit;
 	
-	private long userId;
+	private Long userId;
+	private String userName;
 	
-	private long teamId;
+	private Long teamId;
+	private String teamName;
 }

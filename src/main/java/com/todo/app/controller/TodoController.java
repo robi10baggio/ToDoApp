@@ -1,6 +1,8 @@
 package com.todo.app.controller;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +16,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.todo.app.entity.Team;
@@ -63,18 +65,48 @@ public class TodoController {
 		return this.account;
     }
     
-	@GetMapping("/index")
-	public String index(TodoForm todoForm, Model model) {
-		
-		List<Todo> list = todoService.selectIncomplete(account.getTeamId());
-		
+    private void updateList(Model model) {
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    	List<Todo> list = todoService.selectIncomplete(account.getTeamId());
+		List<TodoForm> forms = new ArrayList<>();
+		for (Todo todo:list) {
+			TodoForm form = new TodoForm();
+			form.setId(todo.getId());
+			form.setTitle(todo.getTitle());
+			form.setStatus(todo.getStatus());
+			form.setUserId(todo.getUser().getId());
+			form.setUserName(todo.getUser().getUserName());
+			form.setTeamId(todo.getTeam().getId());
+			form.setTeamName(todo.getTeam().getTeamName());
+			
+			form.setTimeLimit(dateFormat.format(todo.getTimeLimit()));
+			forms.add(form);
+		}
+		model.addAttribute("todos",forms);
 		
 		List<Todo> doneList = todoService.selectComplete(account.getTeamId());
-
-		model.addAttribute("todos",list);
-		model.addAttribute("doneTodos",doneList);
-		model.addAttribute("todoForm",todoForm);
-		return "index";
+		List<TodoForm> doneForms = new ArrayList<>();
+		for (Todo todo:doneList) {
+			TodoForm form = new TodoForm();
+			form.setId(todo.getId());
+			form.setTitle(todo.getTitle());
+			form.setStatus(todo.getStatus());
+			form.setUserId(todo.getUser().getId());
+			form.setUserName(todo.getUser().getUserName());
+			form.setTeamId(todo.getTeam().getId());
+			form.setTeamName(todo.getTeam().getTeamName());
+			
+			form.setTimeLimit(dateFormat.format(todo.getTimeLimit()));
+			doneForms.add(form);
+		}
+		
+		model.addAttribute("doneTodos",doneForms);
+    }
+    
+	@GetMapping("/list")
+	public String list(TodoForm todoForm, Model model) {
+		updateList(model);
+		return "Todo-list";
 	}
 
 	@PostMapping("/add")
@@ -86,11 +118,8 @@ public class TodoController {
 
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
-			List<Todo> list = todoService.selectIncomplete(account.getTeamId());
-			List<Todo> doneList = todoService.selectComplete(account.getTeamId());
-			model.addAttribute("todos",list);
-			model.addAttribute("doneTodos",doneList);
-			return "index";
+			updateList(model);
+			return "Todo-list";
 		}
 		Todo todo = new Todo();
 		todo.setTitle(todoForm.getTitle());
@@ -103,14 +132,16 @@ public class TodoController {
 		todo.setTeam(team);
 		todoService.add(todo);
 		
-		return "redirect:/todo/index";
+		return "redirect:/todo/list";
 	}
 
-	@PostMapping("/update")
-	public String update(@Validated TodoForm todoForm) {
+	@PostMapping("/update/{id}")
+	public String update(
+			@PathVariable Long id, 
+			@Validated TodoForm todoForm) {
 
 		Todo todo = new Todo();
-		todo.setId(todoForm.getId());
+		todo.setId(id);
 		todo.setTitle(todoForm.getTitle());
 		todo.setTimeLimit(Date.valueOf(todoForm.getTimeLimit()));
 		
@@ -121,12 +152,12 @@ public class TodoController {
 		todo.setUser(user);
 		todo.setTeam(team);
 		todoService.update(todo);
-		return "redirect:/todo/index";
+		return "redirect:/todo/list";
 	}
 	
-	@PostMapping("delete")
-	public String delete(@RequestParam Long userId) {
-		todoService.delete(userId);
-		return "redirect:/todo/index";
+	@PostMapping("/delete/{id}")
+	public String delete(@PathVariable Long id) {
+		todoService.delete(id);
+		return "redirect:/todo/list";
 	}
 }
