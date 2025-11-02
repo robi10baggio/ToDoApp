@@ -106,11 +106,11 @@
 				<form method="post" th:action="@{/todo/add}" th:object="${todoForm}">
 					<tr>
 						<th>タイトル</th>
-						<td><input type="text" th:field="*{taskContent}" /><span th:errors="*{taskContent}" style="color:red"></span></td>
+						<td><input type="text" th:field="*{taskContent}" /><span th:errors="*{taskContent}" th:class="error"></span></td>
 					</tr>
 					<tr>
 						<th>期日</th>
-				    	<td><input type="date" th:field="*{timeLimit} "/><span th:errors="*{timeLimit}" style="color:red"></span></td>
+				    	<td><input type="date" th:field="*{timeLimit} "/><span th:errors="*{timeLimit}" th:class="error"></span></td>
 					</tr>
 					<tr><td><button>追加</button></td></tr>
 			  </form>

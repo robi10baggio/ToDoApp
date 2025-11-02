@@ -75,12 +75,12 @@ public class LoginController {
 			RedirectAttributes redirectAttribute,
 			Model model) {
 		if (bindingResult.hasErrors()) {
-			return "/login";
+			return "login";
 		}
 		User user = userService.loginAuth(loginForm.getUserId(), loginForm.getPassword());
 		
 		if (user == null) {
-			return "redirect:/login";
+			return "login";
 		}
 		// セッション管理されたアカウント情報に名前をセット
 		account.setUserId(user.getId());

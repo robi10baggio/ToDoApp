@@ -77,6 +77,14 @@ tr.todo:nth-child(even) {
 	background-color: #f9f9f9; 
 }
 
+span.error {
+	display: block;
+	color:red;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	font-size: 14px;
+}
+
 /* リンクのスタイル */
 a {
   display: inline-block;
