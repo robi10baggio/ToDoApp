@@ -15,8 +15,7 @@ header {
 }
 
 /* メインフォームの中央配置とスタイル */
-main.login  {
-  max-width: 400px;
+main {
   margin: 40px auto;
   padding: 30px;
   background-color: #ffffff;
@@ -24,12 +23,8 @@ main.login  {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-main.todo {
-  margin: 40px auto;
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+.center-main {
+	max-width: 400px;
 }
 
 /* 入力欄のスタイル */
@@ -45,14 +40,14 @@ input[type="password"] {
 
 /* ボタンのスタイル */
 button {
-  width: 100%;
+  width: 80%;
   padding: 12px;
   background-color: #0078D4;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 12px;
 }
 
 button:hover {

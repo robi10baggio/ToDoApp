@@ -72,7 +72,7 @@ public class TodoController {
 		for (Todo todo:list) {
 			TodoForm form = new TodoForm();
 			form.setId(todo.getId());
-			form.setTitle(todo.getTitle());
+			form.setTaskContent(todo.getTaskContent());
 			form.setStatus(todo.getStatus());
 			form.setUserId(todo.getUser().getId());
 			form.setUserName(todo.getUser().getUserName());
@@ -89,7 +89,7 @@ public class TodoController {
 		for (Todo todo:doneList) {
 			TodoForm form = new TodoForm();
 			form.setId(todo.getId());
-			form.setTitle(todo.getTitle());
+			form.setTaskContent(todo.getTaskContent());
 			form.setStatus(todo.getStatus());
 			form.setUserId(todo.getUser().getId());
 			form.setUserName(todo.getUser().getUserName());
@@ -122,7 +122,7 @@ public class TodoController {
 			return "Todo-list";
 		}
 		Todo todo = new Todo();
-		todo.setTitle(todoForm.getTitle());
+		todo.setTaskContent(todoForm.getTaskContent());
 		todo.setTimeLimit(Date.valueOf(todoForm.getTimeLimit()));
 		todo.setStatus(0);
 		User user = userService.findById(account.getUserId()); 
@@ -142,7 +142,7 @@ public class TodoController {
 
 		Todo todo = new Todo();
 		todo.setId(id);
-		todo.setTitle(todoForm.getTitle());
+		todo.setTaskContent(todoForm.getTaskContent());
 		todo.setTimeLimit(Date.valueOf(todoForm.getTimeLimit()));
 		
 		todo.setStatus(todoForm.getStatus());

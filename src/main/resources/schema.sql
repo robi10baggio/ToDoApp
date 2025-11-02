@@ -17,10 +17,10 @@ CREATE TABLE users(
 
 
 CREATE TABLE todo_items(
-	id 			SERIAL PRIMARY KEY,
-	title 		varchar(200) NOT NULL,
-	status	 	int default 0,
-	time_limit 	date  NOT NULL,
-	user_id int REFERENCES users(id),
-	team_id int  REFERENCES teams(id)
+	id 				SERIAL PRIMARY KEY,
+	task_content 	varchar(200) NOT NULL,
+	status	 		int default 0,
+	time_limit 		date  NOT NULL,
+	user_id int 	REFERENCES users(id),
+	team_id int  	REFERENCES teams(id)
 );

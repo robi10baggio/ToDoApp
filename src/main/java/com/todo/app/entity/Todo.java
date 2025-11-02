@@ -21,8 +21,8 @@ public class Todo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(nullable = false)
-	private String title;
+	@Column(name="task_content", nullable = false)
+	private String taskContent;
 	
 	private Integer status;
 	
