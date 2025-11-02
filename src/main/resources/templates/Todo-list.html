@@ -3,113 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <title>TODO管理システム</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
+  <header>
   <h1>[<span th:text="${account.teamName}"></span>]のTodoリスト</h1>
-  <h3>[<span th:text="${account.userName}"></span>]さんのマイタスク</h3>
-  <div th:unless="${#lists.isEmpty(todos)}">
-	  <table border="1">
-		<tr>
-			<th>ステータス</th>
-			<th>タイトル</th>
-			<th>チーム</th>
-			<th>担当者</th>
-			<th>終了予定日</th>
-			<th>更新</th>
-			<th>削除</th>
-		</tr>
-		<tr  th:each="todo : ${todos}" th:object="${todo}">
-		  	<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" >
-				<td>
-					<select id="status" name="status">
-					    <option th:each="item : ${statusMenu}"
-					            th:value="${item.key}"
-					            th:text="${item.value}"
-					            th:selected="${item.key == todo.status}">
-					    </option>
-					</select>
-				</td>
-			    <td>
-					<input type="text" name="title" th:value="*{title}" />
-				</td>
-				<td th:text="*{teamName}" /></td>
-				<td th:text="*{userName}" /></td>
-			    <td>
-					<input type="date" name="timeLimit" th:value="*{timeLimit}" />
-				</td>
-			    <td th:if="${account.userId == todo.userId}">
-					<input type="submit" name="update" value="更新" />
-				</td>
-			</form>
-			<td th:if="${account.userId == todo.userId}">
-				<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}" >
-					<input type="submit" name="delete"value="削除" />
-				</form>
-			</td>
-			
-	  	</tr>
-	  </table>
-  </div>
+  </header>
+  <body>
+	<main class="todo">
+	  <h1>📋 未完了のタスク</h1>
 
-  <h3>完了済み</h3>
-  <div th:unless="${#lists.isEmpty(doneTodos)}">
-	  <table border="1">
-		<tr>
-			<th>ステータス</th>
-			<th>タイトル</th>
-			<th>グループ</th>
-			<th>担当者</th>
-			<th>終了予定日</th>
-			<th>更新</th>
-			<th>削除</th>
-		</tr>
-		<tr  th:each="todo : ${doneTodos}" >
-			<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" th:object="${todo}">
-			    <td>
-					<select id="status" name="status">
-						<option th:each="item : ${statusMenu}"
-							th:value="${item.key}"
-							th:text="${item.value}"
-							th:selected="${item.key == todo.status}">
-						</option>
-					</select>
-				</td>
-			    <td>
-					<input type="text" name="title" th:value="*{title}" style="text-decoration:line-through"/>
-				</td>
-				<td th:text="*{teamName}" /></td>
-				<td th:text="*{userName}" /></td>
-				<td><input type="date" name="timeLimit" th:value="*{timeLimit}" />
-				</td>
-				<td th:if="${account.userId == todo.userId}">
-					<input type="submit" name="update" value="更新" />
-				</td>
-			 </form>
-			 <td th:if="${account.userId == todo.userId}">
-			 	<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}"  th:object="${todo}">
-				 	<input type="submit" name="delete"value="削除" />
-				</form>
-			</td>
-		</tr>
-	  </table>
-  </div>
-
-  <h3>新しいタスクを追加</h3>
-  	<table>
-		<form method="post" th:action="@{/todo/add}" th:object="${todoForm}">
-			<tr>
-				<th>タイトル</th>
-				<td><input type="text" th:field="*{title}" /><span th:errors="*{title}" style="color:red"></span></td>
+	  <div th:unless="${#lists.isEmpty(todos)}">
+		  <table border="1" class="todo">
+			<tr class="todo">
+				<th class="todo">ステータス</th>
+				<th class="todo">タイトル</th>
+				<th class="todo">チーム</th>
+				<th class="todo">担当者</th>
+				<th class="todo">終了予定日</th>
+				<th class="todo">更新</th>
+				<th class="todo">削除</th>
 			</tr>
-			<tr>
-				<th>期日</th>
-		    	<td><input type="date" th:field="*{timeLimit} "/><span th:errors="*{timeLimit}" style="color:red"></span></td>
-			</tr>
-			<tr><td><button>追加</button></td></tr>
-	    	
-	  </form>
-	</table>
-
-  <a href="/logout">ログアウト</a>
+			<tr class="todo" th:each="todo : ${todos}" th:object="${todo}">
+			  	<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" >
+					<td class="todo">
+						<select id="status" name="status">
+						    <option th:each="item : ${statusMenu}"
+						            th:value="${item.key}"
+						            th:text="${item.value}"
+						            th:selected="${item.key == todo.status}">
+						    </option>
+						</select>
+					</td>
+				    <td class="todo">
+						<input type="text" name="title" th:value="*{title}" />
+					</td>
+					<td class="todo" th:text="*{teamName}" /></td>
+					<td class="todo" th:text="*{userName}" /></td>
+				    <td class="todo">
+						<input type="date" name="timeLimit" th:value="*{timeLimit}" />
+					</td>
+				    <td class="todo" th:if="${account.userId == todo.userId}">
+						<input type="submit" name="update" value="更新" />
+					</td>
+				</form>
+				<td class="todo" th:if="${account.userId == todo.userId}">
+					<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}" >
+						<input type="submit" name="delete"value="削除" />
+					</form>
+				</td>
+				
+		  	</tr>
+		  </table>
+	  	</div>
+	  <div>
+		  <h1>📋 完了のタスク</h1>
+		  <div th:unless="${#lists.isEmpty(doneTodos)}">
+			  <table border="1" class="todo">
+				<tr class="todo">
+					<th class="todo">ステータス</th>
+					<th class="todo">タイトル</th>
+					<th class="todo">グループ</th>
+					<th class="todo">担当者</th>
+					<th class="todo">終了予定日</th>
+					<th class="todo">更新</th>
+					<th class="todo">削除</th>
+				</tr>
+				<tr class="todo" th:each="todo : ${doneTodos}" >
+					<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" th:object="${todo}">
+					    <td class="todo">
+							<select id="status" name="status">
+								<option th:each="item : ${statusMenu}"
+									th:value="${item.key}"
+									th:text="${item.value}"
+									th:selected="${item.key == todo.status}">
+								</option>
+							</select>
+						</td>
+					    <td class="todo">
+							<input type="text" name="title" th:value="*{title}" style="text-decoration:line-through"/>
+						</td>
+						<td class="todo" th:text="*{teamName}" /></td>
+						<td class="todo" th:text="*{userName}" /></td>
+						<td class="todo">
+							<input type="date" name="timeLimit" th:value="*{timeLimit}" />
+						</td>
+						<td class="todo" th:if="${account.userId == todo.userId}">
+							<input type="submit" name="update" value="更新" />
+						</td>
+					 </form>
+					 <td class="todo" th:if="${account.userId == todo.userId}">
+					 	<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}"  th:object="${todo}">
+						 	<input type="submit" name="delete"value="削除" />
+						</form>
+					</td>
+				</tr>
+			  </table>
+		  	</div>
+		</div>
+		<div>	
+	  		<h3>新しいタスクを追加</h3>
+		  	<table>
+				<form method="post" th:action="@{/todo/add}" th:object="${todoForm}">
+					<tr>
+						<th>タイトル</th>
+						<td><input type="text" th:field="*{title}" /><span th:errors="*{title}" style="color:red"></span></td>
+					</tr>
+					<tr>
+						<th>期日</th>
+				    	<td><input type="date" th:field="*{timeLimit} "/><span th:errors="*{timeLimit}" style="color:red"></span></td>
+					</tr>
+					<tr><td><button>追加</button></td></tr>
+			  </form>
+			</table>
+		</div>
+		<main>	
+	</body>
+	<footer>
+  		<a href="/logout">ログアウト</a>
+  	</footer>
 </body>
 </html>
