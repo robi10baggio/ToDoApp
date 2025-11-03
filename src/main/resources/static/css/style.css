@@ -61,7 +61,7 @@ table.todo {
 	margin-bottom: 40px; 
 }
 
-th.todo, td.todo { 
+th.todo , td.todo { 
 	padding: 12px;
 	border: 1px solid #ccc;
 	text-align: left;
