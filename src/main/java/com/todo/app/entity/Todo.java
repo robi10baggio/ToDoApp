@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="todo_items")
+@Table(name="todos")
 @Data
 public class Todo {
 	@Id
@@ -26,8 +26,9 @@ public class Todo {
 	
 	private Integer status;
 	
-	@Column(name="time_limit", nullable = false)
-	private Date timeLimit;
+	@Column(name="due_date", nullable = false)
+	private Date dueDate;
+	
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;

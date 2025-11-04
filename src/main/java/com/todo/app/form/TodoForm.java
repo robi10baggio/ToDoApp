@@ -11,12 +11,12 @@ public class TodoForm {
 	public Long id;
 	
     @Size(min = 1, max = 200, message = "{0}は{1}文字以上{2}文字以下で入力してください。")
-	public String taskContent;
+    private String taskContent;
 	
-	public Integer status;
+    private Integer status;
 	
 	@NotEmpty
-	public String timeLimit;
+	private String dueDate;
 	
 	private Long userId;
 	private String userName;

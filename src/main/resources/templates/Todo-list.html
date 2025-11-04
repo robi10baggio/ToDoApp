@@ -40,7 +40,7 @@
 					<td class="todo" th:text="*{teamName}" /></td>
 					<td class="todo" th:text="*{userName}" /></td>
 				    <td class="todo">
-						<input type="date" name="timeLimit" th:value="*{timeLimit}" />
+						<input type="date" name="dueDate" th:value="*{dueDate}" />
 					</td>
 				    <td class="todo" th:if="${account.userId == todo.userId}">
 						<button>更新</button>
@@ -85,7 +85,7 @@
 						<td class="todo" th:text="*{teamName}" /></td>
 						<td class="todo" th:text="*{userName}" /></td>
 						<td class="todo">
-							<input type="date" name="timeLimit" th:value="*{timeLimit}" />
+							<input type="date" name="dueDate" th:value="*{dueDate}" />
 						</td>
 						<td class="todo" th:if="${account.userId == todo.userId}">
 							<button>更新</button>
@@ -110,7 +110,7 @@
 					</tr>
 					<tr>
 						<th>期日</th>
-				    	<td><input type="date" th:field="*{timeLimit} "/><span th:errors="*{timeLimit}" th:class="error"></span></td>
+				    	<td><input type="date" th:field="*{dueDate} "/><span th:errors="*{dueDate}" th:class="error"></span></td>
 					</tr>
 					<tr><td><button>追加</button></td></tr>
 			  </form>
