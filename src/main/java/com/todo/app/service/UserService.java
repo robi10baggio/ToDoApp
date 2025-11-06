@@ -1,7 +1,5 @@
 package com.todo.app.service;
 
-import java.util.Optional;
-
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,7 @@ public class UserService {
 	}
 	
 	public User findById(Long id) {
-		Optional<User> user =  loginRepository.findById(id);
-		return user.get();
+		return loginRepository.findById(id).orElse(null);
 	}
 	
 	@Transactional
