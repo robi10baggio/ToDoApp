@@ -1,6 +1,5 @@
 package com.todo.app.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -67,7 +66,6 @@ public class TodoController {
     }
     
     private void updateList(Model model) {
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     	List<Todo> list = todoService.selectIncomplete(account.getTeamId());
 		List<TodoForm> forms = new ArrayList<>();
 		for (Todo todo:list) {
