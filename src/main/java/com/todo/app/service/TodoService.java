@@ -21,11 +21,11 @@ public class TodoService {
 	}
 
 	public List<Todo> selectIncomplete(long team_id) {
-		return todoRepository.findByStatusLessThanAndTeamId(2, team_id);
+		return todoRepository.findByStatusLessThanAndTeamIdOrderByDueDate(2, team_id);
 	}
 
 	public List<Todo> selectComplete(long team_id) {
-		return todoRepository.findByStatusEqualsAndTeamId(2, team_id);
+		return todoRepository.findByStatusEqualsAndTeamIdOrderByDueDate(2, team_id);
 	}
 
 	public void add(Todo todo) {
