@@ -14,18 +14,18 @@
 	  <h1>📋 未完了のタスク</h1>
 	  <div th:unless="${#lists.isEmpty(todos)}">
 		  <table border="1" class="todo">
-			<tr class="todo">
-				<th class="todo">ステータス</th>
-				<th class="todo">タスク内容</th>
-				<th class="todo">チーム</th>
-				<th class="todo">担当者</th>
-				<th class="todo">終了予定日</th>
-				<th class="todo">更新</th>
-				<th class="todo">削除</th>
+			<tr>
+				<th>ステータス</th>
+				<th>タスク内容</th>
+				<th>チーム</th>
+				<th>担当者</th>
+				<th>終了予定日</th>
+				<th>更新</th>
+				<th>削除</th>
 			</tr>
-			<tr class="todo" th:each="todo : ${todos}" th:object="${todo}">
+			<tr th:each="todo : ${todos}" th:object="${todo}">
 			  	<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" >
-					<td class="todo">
+					<td>
 						<select id="status" name="status">
 						    <option th:each="item : ${statusMenu}"
 						            th:value="${item.key}"
@@ -34,24 +34,27 @@
 						    </option>
 						</select>
 					</td>
-				    <td class="todo">
+				    <td>
 						<input type="text" name="taskContent" th:value="*{taskContent}" />
 					</td>
-					<td class="todo" th:text="*{teamName}" /></td>
-					<td class="todo" th:text="*{userName}" /></td>
-				    <td class="todo">
+					<td th:text="*{teamName}" /></td>
+					<td th:text="*{userName}" /></td>
+				    <td>
 						<input type="date" name="dueDate" th:value="*{dueDate}" />
 					</td>
-				    <td class="todo" th:if="${account.userId == todo.userId}">
+				    <td th:if="${account.userId == todo.userId}">
 						<button>更新</button>
 					</td>
+					<td th:unless="${account.userId == todo.userId}">
+					</td>
 				</form>
-				<td class="todo" th:if="${account.userId == todo.userId}">
+				<td th:if="${account.userId == todo.userId}">
 					<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}" >
 						<button>削除</button>
 					</form>
 				</td>
-				
+				<td th:unless="${account.userId == todo.userId}">
+				</td>
 		  	</tr>
 		  </table>
 	  	</div>
@@ -59,18 +62,18 @@
 		  <h1>📋 完了のタスク</h1>
 		  <div th:unless="${#lists.isEmpty(doneTodos)}">
 			  <table border="1" class="todo">
-				<tr class="todo">
-					<th class="todo">ステータス</th>
-					<th class="todo">タスク内容</th>
-					<th class="todo">グループ</th>
-					<th class="todo">担当者</th>
-					<th class="todo">終了予定日</th>
-					<th class="todo">更新</th>
-					<th class="todo">削除</th>
+				<tr>
+					<th>ステータス</th>
+					<th>タスク内容</th>
+					<th>グループ</th>
+					<th>担当者</th>
+					<th>終了予定日</th>
+					<th>更新</th>
+					<th>削除</th>
 				</tr>
-				<tr class="todo" th:each="todo : ${doneTodos}" >
+				<tr th:each="todo : ${doneTodos}" >
 					<form method="post" th:action="@{/todo/update/{id}(id=*{id})}" th:object="${todo}">
-					    <td class="todo">
+					    <td>
 							<select id="status" name="status">
 								<option th:each="item : ${statusMenu}"
 									th:value="${item.key}"
@@ -79,22 +82,26 @@
 								</option>
 							</select>
 						</td>
-					    <td class="todo">
+					    <td>
 							<input type="text" name="taskContent" th:value="*{taskContent}" style="text-decoration:line-through"/>
 						</td>
-						<td class="todo" th:text="*{teamName}" /></td>
-						<td class="todo" th:text="*{userName}" /></td>
-						<td class="todo">
+						<td th:text="*{teamName}" /></td>
+						<td th:text="*{userName}" /></td>
+						<td>
 							<input type="date" name="dueDate" th:value="*{dueDate}" />
 						</td>
-						<td class="todo" th:if="${account.userId == todo.userId}">
+						<td th:if="${account.userId == todo.userId}">
 							<button>更新</button>
 						</td>
+						<td th:unless="${account.userId == todo.userId}">
+						</td>
 					 </form>
-					 <td class="todo" th:if="${account.userId == todo.userId}">
+					 <td th:if="${account.userId == todo.userId}">
 					 	<form method="post" th:action="@{/todo/delete/{id}(id=*{id})}"  th:object="${todo}">
 						 	<button>削除</button>
 						</form>
+					</td>
+					<td th:unless="${account.userId == todo.userId}">
 					</td>
 				</tr>
 			  </table>
