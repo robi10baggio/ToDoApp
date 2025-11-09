@@ -11,7 +11,7 @@ import com.todo.app.repository.UserRepository;
 @Service
 public class UserService {
 	@Autowired
-	UserRepository loginRepository;
+	private UserRepository loginRepository;
 	
 	public User loginAuth(String userName, String password) {
 		return loginRepository.findByUserIdAndPassword(userName, password);

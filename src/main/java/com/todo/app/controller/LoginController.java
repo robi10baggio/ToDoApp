@@ -30,16 +30,16 @@ import com.todo.app.service.UserService;
 public class LoginController {
 
 	@Autowired
-	HttpSession session;
+	private HttpSession session;
 
 	@Autowired
-	Account account;
+	private Account account;
 	
 	@Autowired
-	UserService userService;
+	private UserService userService;
 	
 	@Autowired
-	TeamService teamService;
+	private TeamService teamService;
 
 	@ModelAttribute("teamMenu")
     public Map<Integer, String> getTeamsMenu() {
@@ -85,11 +85,8 @@ public class LoginController {
 		// セッション管理されたアカウント情報に名前をセット
 		account.setUserId(user.getId());
 		account.setUserName(user.getUserName());
-		account.setTeamId(user.getTeam().getId());
-		Team team = teamService.findById(user.getTeam().getId());
-		account.setTeamName(team.getTeamName());
+		account.setTeamName(user.getTeam().getTeamName());
 		
-
 		// 「/todo」へのリダイレクト
 		return "redirect:/todo/list";
 	}

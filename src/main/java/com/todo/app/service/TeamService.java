@@ -11,7 +11,7 @@ import com.todo.app.repository.TeamRepository;
 @Service
 public class TeamService {
 	@Autowired 
-	TeamRepository teamRepository;
+	private TeamRepository teamRepository;
 	
 	public List<Team> findAll() {
 		return   teamRepository.findAll();

@@ -10,7 +10,6 @@ import lombok.Data;
 @Data
 public class Account {
 	private long userId;
-	private long teamId;
 	private String userName;
 	private String teamName;
 }

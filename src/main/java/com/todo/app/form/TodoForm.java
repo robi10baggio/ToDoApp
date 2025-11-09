@@ -21,6 +21,5 @@ public class TodoForm {
 	private Long userId;
 	private String userName;
 	
-	private Long teamId;
 	private String teamName;
 }

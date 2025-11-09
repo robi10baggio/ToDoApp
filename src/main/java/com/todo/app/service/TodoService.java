@@ -12,20 +12,19 @@ import com.todo.app.repository.TodoRepository;
 
 @Service
 public class TodoService {
-	
 	@Autowired
-	TodoRepository todoRepository;
+	private TodoRepository todoRepository;
 
 	public List<Todo> selectAll(){
 		return todoRepository.findAll();
 	}
 
 	public List<Todo> selectIncomplete(long team_id) {
-		return todoRepository.findByStatusLessThanAndTeamIdOrderByDueDate(2, team_id);
+		return todoRepository.findByStatusLessThanAndUserTeamIdOrderByDueDate(2, team_id);
 	}
 
 	public List<Todo> selectComplete(long team_id) {
-		return todoRepository.findByStatusEqualsAndTeamIdOrderByDueDate(2, team_id);
+		return todoRepository.findByStatusEqualsAndUserTeamIdOrderByDueDate(2, team_id);
 	}
 
 	public void add(Todo todo) {
