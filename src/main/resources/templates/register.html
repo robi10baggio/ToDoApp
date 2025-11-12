@@ -9,7 +9,7 @@
 	<header>
 		<h1>ユーザ登録</h1>
 	</header>
-	<main class="center-main">
+	<main class="login-center-main ">
 		<div>
 			<p><span th:text="${message}" th:class="error"></span></p>
 		</div>
@@ -17,9 +17,9 @@
 			<form th:action="@{/register}" method="post" th:object="${registerForm}">
 				<tr>
 					<th>ユーザID</th>
-						<td>
-							<input type="text" th:field="*{userId}" placeholder="メールアドレスで登録してください"><span th:errors="*{userId}" th:class="error"></span>
-						</td>
+					<td>
+						<input type="text" th:field="*{userId}" placeholder="メールアドレスで登録してください"><span th:errors="*{userId}" th:class="error"></span>
+					</td>
 				</tr>
 				<tr>
 					<th>ユーザ名</th>

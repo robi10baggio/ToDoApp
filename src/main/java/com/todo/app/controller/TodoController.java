@@ -60,7 +60,7 @@ public class TodoController {
     	User user = userService.findById(account.getUserId());
     	Long teamId = user.getTeam().getId();
     	List<Todo> list = todoService.selectIncomplete(teamId);
-		List<TodoForm> forms = new ArrayList<>();
+		List<TodoForm> todos = new ArrayList<>();
 		for (Todo todo:list) {
 			TodoForm form = new TodoForm();
 			form.setId(todo.getId());
@@ -71,12 +71,12 @@ public class TodoController {
 			form.setTeamName(todo.getUser().getTeam().getTeamName());
 			
 			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			forms.add(form);
+			todos.add(form);
 		}
-		model.addAttribute("todos",forms);
+		model.addAttribute("todos",todos);
 		
 		List<Todo> doneList = todoService.selectComplete(teamId);
-		List<TodoForm> doneForms = new ArrayList<>();
+		List<TodoForm> doneTodos = new ArrayList<>();
 		for (Todo todo:doneList) {
 			TodoForm form = new TodoForm();
 			form.setId(todo.getId());
@@ -87,10 +87,10 @@ public class TodoController {
 			form.setTeamName(todo.getUser().getTeam().getTeamName());
 			
 			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			doneForms.add(form);
+			doneTodos.add(form);
 		}
 		
-		model.addAttribute("doneTodos",doneForms);
+		model.addAttribute("doneTodos",doneTodos);
     }
     
 	@GetMapping("/list")
@@ -99,6 +99,11 @@ public class TodoController {
 		return "Todo-list";
 	}
 
+	@GetMapping("/add")
+	public String addForm(TodoForm todoForm, Model model) {
+		return "Todo-add";
+	}
+	
 	@PostMapping("/add")
 	public String add(
 			@Validated TodoForm todoForm,
@@ -108,8 +113,7 @@ public class TodoController {
 
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
-			updateList(model);
-			return "Todo-list";
+			return "Todo-add";
 		}
 		Todo todo = new Todo();
 		todo.setTaskContent(todoForm.getTaskContent());
