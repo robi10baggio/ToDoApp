@@ -53,7 +53,7 @@ public class LoginController {
 	
 	// ログイン画面を表示
 	@GetMapping({ "/", "/login", "/logout" })
-	public String loginDisplay(
+	public String showLoginPage(
 			LoginForm loginForm,
 			@RequestParam(name = "error", defaultValue = "") String error,
 			Model model) {
@@ -69,7 +69,7 @@ public class LoginController {
 
 	// ログインを実行
 	@PostMapping("/login")
-	public String login(
+	public String loginUser(
 			@Validated LoginForm loginForm,
 			BindingResult bindingResult,
 			RedirectAttributes redirectAttribute,
@@ -91,16 +91,16 @@ public class LoginController {
 		return "redirect:/todo/list";
 	}
 	
-	@GetMapping("/register")
-	public String registerDisplay(
+	@GetMapping("/regist")
+	public String showRegistForm(
 			RegisterForm registerForm,
 			Model model) {
-		return "register";
+		return "regist";
 		
 	}
 	
-	@PostMapping("/register")
-	public String register(
+	@PostMapping("/regist")
+	public String registUser(
 			@Validated RegisterForm registerForm,
 			BindingResult bindingResult,
 			RedirectAttributes redirectAttribute,

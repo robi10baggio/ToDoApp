@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.todo.app.entity.Todo;
+import com.todo.app.entity.Task;
 import com.todo.app.entity.User;
-import com.todo.app.form.TodoForm;
+import com.todo.app.form.TaskForm;
 import com.todo.app.model.Account;
-import com.todo.app.service.TodoService;
+import com.todo.app.service.TaskService;
 import com.todo.app.service.UserService;
 
 @Controller
@@ -33,7 +33,7 @@ public class TodoController {
 	private Account account;
 	
 	@Autowired
-	private TodoService todoService;
+	private TaskService taskService;
 	
 	@Autowired
 	private UserService userService;
@@ -59,34 +59,34 @@ public class TodoController {
     private void updateList(Model model) {
     	User user = userService.findById(account.getUserId());
     	Long teamId = user.getTeam().getId();
-    	List<Todo> list = todoService.selectIncomplete(teamId);
-		List<TodoForm> todos = new ArrayList<>();
-		for (Todo todo:list) {
-			TodoForm form = new TodoForm();
-			form.setId(todo.getId());
-			form.setTaskContent(todo.getTaskContent());
-			form.setStatus(todo.getStatus());
-			form.setUserId(todo.getUser().getId());
-			form.setUserName(todo.getUser().getUserName());
-			form.setTeamName(todo.getUser().getTeam().getTeamName());
+    	List<Task> list = taskService.selectIncomplete(teamId);
+		List<TaskForm> todos = new ArrayList<>();
+		for (Task task:list) {
+			TaskForm form = new TaskForm();
+			form.setId(task.getId());
+			form.setTaskContent(task.getTaskContent());
+			form.setStatus(task.getStatus());
+			form.setUserId(task.getUser().getId());
+			form.setUserName(task.getUser().getUserName());
+			form.setTeamName(task.getUser().getTeam().getTeamName());
 			
-			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			form.setDueDate(task.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			todos.add(form);
 		}
 		model.addAttribute("todos",todos);
 		
-		List<Todo> doneList = todoService.selectComplete(teamId);
-		List<TodoForm> doneTodos = new ArrayList<>();
-		for (Todo todo:doneList) {
-			TodoForm form = new TodoForm();
-			form.setId(todo.getId());
-			form.setTaskContent(todo.getTaskContent());
-			form.setStatus(todo.getStatus());
-			form.setUserId(todo.getUser().getId());
-			form.setUserName(todo.getUser().getUserName());
-			form.setTeamName(todo.getUser().getTeam().getTeamName());
+		List<Task> doneList = taskService.selectComplete(teamId);
+		List<TaskForm> doneTodos = new ArrayList<>();
+		for (Task task:doneList) {
+			TaskForm form = new TaskForm();
+			form.setId(task.getId());
+			form.setTaskContent(task.getTaskContent());
+			form.setStatus(task.getStatus());
+			form.setUserId(task.getUser().getId());
+			form.setUserName(task.getUser().getUserName());
+			form.setTeamName(task.getUser().getTeam().getTeamName());
 			
-			form.setDueDate(todo.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			form.setDueDate(task.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 			doneTodos.add(form);
 		}
 		
@@ -94,19 +94,19 @@ public class TodoController {
     }
     
 	@GetMapping("/list")
-	public String list(TodoForm todoForm, Model model) {
+	public String showListPage(TaskForm todoForm, Model model) {
 		updateList(model);
 		return "Todo-list";
 	}
 
 	@GetMapping("/add")
-	public String addForm(TodoForm todoForm, Model model) {
+	public String showAddTaskForm(TaskForm todoForm, Model model) {
 		return "Todo-add";
 	}
 	
 	@PostMapping("/add")
-	public String add(
-			@Validated TodoForm todoForm,
+	public String addTask(
+			@Validated TaskForm taskForm,
 			BindingResult bindingResult,
 			RedirectAttributes redirectAttribute,
 			Model model) {
@@ -115,39 +115,39 @@ public class TodoController {
 		if (bindingResult.hasErrors()) {
 			return "Todo-add";
 		}
-		Todo todo = new Todo();
-		todo.setTaskContent(todoForm.getTaskContent());
-		todo.setDueDate(LocalDate.parse(todoForm.getDueDate()));
-		todo.setStatus(0);
+		Task task = new Task();
+		task.setTaskContent(taskForm.getTaskContent());
+		task.setDueDate(LocalDate.parse(taskForm.getDueDate()));
+		task.setStatus(0);
 		User user = userService.findById(account.getUserId()); 
 
-		todo.setUser(user);
-		todoService.add(todo);
+		task.setUser(user);
+		taskService.add(task);
 		
 		return "redirect:/todo/list";
 	}
 
 	@PostMapping("/update/{id}")
-	public String update(
+	public String updateTask(
 			@PathVariable Long id, 
-			@Validated TodoForm todoForm) {
+			@Validated TaskForm taskForm) {
 
-		Todo todo = new Todo();
-		todo.setId(id);
-		todo.setTaskContent(todoForm.getTaskContent());
-		todo.setDueDate(LocalDate.parse(todoForm.getDueDate()));
+		Task task = new Task();
+		task.setId(id);
+		task.setTaskContent(taskForm.getTaskContent());
+		task.setDueDate(LocalDate.parse(taskForm.getDueDate()));
 		
-		todo.setStatus(todoForm.getStatus());
+		task.setStatus(taskForm.getStatus());
 		User user = userService.findById(account.getUserId()); 
 
-		todo.setUser(user);
-		todoService.update(todo);
+		task.setUser(user);
+		taskService.update(task);
 		return "redirect:/todo/list";
 	}
 	
 	@PostMapping("/delete/{id}")
-	public String delete(@PathVariable Long id) {
-		todoService.delete(id);
+	public String deleteTask(@PathVariable Long id) {
+		taskService.delete(id);
 		return "redirect:/todo/list";
 	}
 }
