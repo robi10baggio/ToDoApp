@@ -100,7 +100,7 @@ public class TodoController {
 	}
 
 	@GetMapping("/add")
-	public String showAddTaskForm(TaskForm todoForm, Model model) {
+	public String showAddTaskForm(TaskForm taskForm, Model model) {
 		return "Todo-add";
 	}
 	
